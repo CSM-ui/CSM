@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Counter-Strike Models</title>
+    <base href="/">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://4kwallpapers.com/images/wallpapers/counter-strike--9192.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+        .container {
+            max-width: 90vw;
+            width: 640px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            margin: 1rem auto;
+        }
+        .bot-extra-panel {
+            max-width: 90vw;
+            width: 500px;
+            padding: 2rem;
+            margin: 1rem auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .bot-extra-panel img {
+            max-width: 150px;
+            width: 45vw;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .bot-extra-panel img:hover {
+            transform: scale(1.1);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #7289da;
+        }
+        h2 {
+            font-size: 1.8rem;
+        }
+        p, ul {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .discord-link img {
+            max-width: 200px;
+            width: 40vw;
+            transition: transform 0.3s ease;
+        }
+        .discord-link img:hover {
+            transform: scale(1.1);
+        }
+        .no-js {
+            background-color: #ff4444;
+            color: #fff;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+        /* Hamburger Menu Styles */
+        .hamburger {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            cursor: pointer;
+            width: 2rem;
+            height: 1.5rem;
+            min-height: 44px; /* Większy obszar klikalny dla dotyku */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .hamburger span {
+            width: 100%;
+            height: 0.25rem;
+            background-color: #ffffff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(0.4rem, 0.4rem);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(0.5rem, -0.5rem);
+        }
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80vw;
+            max-width: 250px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            padding-top: 4rem;
+        }
+        .nav-menu.active {
+            left: 0;
+        }
+        .nav-menu a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            transition: background 0.2s ease;
+            touch-action: manipulation;
+            min-height: 44px; /* Większy obszar klikalny dla dotyku */
+        }
+        .nav-menu a:hover {
+            background: rgba(114, 137, 218, 0.5);
+        }
+        /* Gallery Styles */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .gallery img {
+            max-width: 150px;
+            width: 45vw;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            min-height: 44px; /* Większy obszar klikalny dla dotyku */
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 2001;
+            min-height: 44px; /* Większy obszar klikalny dla dotyku */
+            min-width: 44px;
+        }
+        /* Responsywne style */
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            p, ul {
+                font-size: 0.9rem;
+            }
+            .container, .bot-extra-panel {
+                width: 85vw;
+                padding: 1.5rem;
+                margin: 1rem auto;
+            }
+            .discord-link img {
+                width: 50vw;
+                max-width: 150px;
+            }
+            .gallery img, .bot-extra-panel img {
+                width: 40vw;
+                max-width: 120px;
+            }
+            .hamburger {
+                width: 1.8rem;
+                height: 1.2rem;
+            }
+            .nav-menu a {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            p, ul {
+                font-size: 0.85rem;
+            }
+            .container, .bot-extra-panel {
+                width: 90vw;
+                padding: 1rem;
+                margin: 0.5rem auto;
+            }
+            .discord-link img {
+                width: 60vw;
+                max-width: 120px;
+            }
+            .gallery, .bot-extra-panel {
+                gap: 0.5rem;
+                flex-direction: column; /* Układ jednokolumnowy dla małych ekranów */
+                align-items: center;
+            }
+            .gallery img, .bot-extra-panel img {
+                width: 80vw; /* Większa szerokość dla jednokolumnowego układu */
+                max-width: 100px;
+            }
+            .modal-close {
+                font-size: 1.5rem;
+            }
+        }
+        @media screen and (max-width: 360px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            p, ul {
+                font-size: 0.8rem;
+            }
+            .container, .bot-extra-panel {
+                width: 92vw;
+                padding: 0.8rem;
+                margin: 0.4rem auto;
+            }
+            .discord-link img {
+                width: 70vw;
+                max-width: 100px;
+            }
+            .gallery, .bot-extra-panel {
+                gap: 0.4rem;
+            }
+            .gallery img, .bot-extra-panel img {
+                width: 85vw;
+                max-width: 90px;
+            }
+            .hamburger {
+                width: 1.6rem;
+                height: 1rem;
+            }
+            .nav-menu a {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+            .modal-close {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+    <noscript>
+        <style>
+            .no-js {
+                display: block;
+            }
+            .content {
+                display: none;
+            }
+        </style>
+    </noscript>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="no-js">
+        You need to enable JavaScript to run this app.
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="nav-menu">
+        <a href="/" onclick="navigateTo('home'); return false;">Strona Główna</a>
+        <a href="/bots" onclick="navigateTo('bots'); return false;">Boty Discord</a>
+        <a href="/models" onclick="navigateTo('models'); return false;">Modele</a>
+        <a href="https://discord.gg/FysWB8D2Cc" target="_blank">Discord</a>
+        <a href="/about" onclick="navigateTo('about'); return false;">O nas</a>
+        <a href="/contact" onclick="navigateTo('contact'); return false;">Kontakt</a>
+    </div>
+    <div class="container content" id="main-content">
+        <h1>Counter-Strike Models</h1>
+        <h2>CSM.PL</h2>
+        <p>Dołącz do naszej społeczności na Discordzie!</p>
+        <a class="discord-link" href="https://discord.gg/FysWB8D2Cc" target="_blank">
+            <img src="https://www.pngkey.com/png/full/20-200938_white-discord-logo-png-png-free-discord-logo.png" alt="Dołącz do Discorda">
+        </a>
+    </div>
+    <div class="modal" id="image-modal" onclick="closeModal()">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img id="modal-image" src="" alt="Pełnoekranowy model">
+    </div>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.nav-menu');
+            const hamburger = document.querySelector('.hamburger');
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        function navigateTo(page) {
+            const content = document.getElementById('main-content');
+            let contentHTML = '';
+
+            switch (page) {
+                case 'home':
+                    contentHTML = `
+                        <h1>Counter-Strike Models</h1>
+                        <h2>CSM.PL</h2>
+                        <p>Dołącz do naszej społeczności na Discordzie!</p>
+                        <a class="discord-link" href="https://discord.gg/FysWB8D2Cc" target="_blank">
+                            <img src="https://www.pngkey.com/png/full/20-200938_white-discord-logo-png-png-free-discord-logo.png" alt="Dołącz do Discorda">
+                        </a>
+                    `;
+                    break;
+                case 'about':
+                    contentHTML = `
+                        <h1>About</h1>
+                        <h2><b>CSM</b></h2>
+                        <p>To mała, zgrana grupa pasjonatów, którzy łączą dwie rzeczy – miłość do Counter-Strike’a i kreatywność w świecie kodu. 🖥🎮</p>
+                        <p>
+                            🔹 Tworzymy własne <b>modele i modyfikacje do CS</b>, dbając o każdy detal.<br>
+                            🔹 Kodujemy <b>strony internetowe</b> – od prostych projektów po bardziej rozbudowane aplikacje.<br>
+                            🔹 Budujemy <b>boty na Discorda</b>, które ułatwiają życie społecznościom i dodają im charakteru.
+                        </p>
+                        <p>Naszym celem jest wspólna nauka, rozwój i dzielenie się pasją. Nie jesteśmy wielką organizacją – stawiamy na <b>kameralną atmosferę, współpracę i dobrą zabawę</b>. 🚀</p>
+                        <p>Dołącz, jeśli chcesz razem z nami tworzyć coś od podstaw i wymieniać się doświadczeniem!</p>
+                    `;
+                    break;
+                case 'models':
+                    contentHTML = `
+                        <h1>Modele</h1>
+                        <h2>CSM.PL</h2>
+                        <p>Przeglądaj nasze modele stworzone dla Counter-Strike!</p>
+                        <div class="gallery">
+                            <img src="https://i.imgur.com/5raAz9o.png" alt="Model 1" onclick="openModal(this.src)">
+                            <img src="https://i.imgur.com/OdakEZX.png" alt="Model 2" onclick="openModal(this.src)">
+                            <img src="https://i.imgur.com/pF2qG9J.png" alt="Model 3" onclick="openModal(this.src)">
+                            <img src="https://i.imgur.com/iEfijh6.png" alt="Model 4" onclick="openModal(this.src)">
+                            <img src="https://i.imgur.com/B47DXJp.png" alt="Model 5" onclick="openModal(this.src)">
+                            <img src="https://i.imgur.com/KZk8l89.png" alt="Model 6" onclick="openModal(this.src)">
+                        </div>
+                    `;
+                    break;
+                case 'bots':
+                    contentHTML = `
+                        <h1>Boty Discord</h1>
+                        <h2>CSM.PL</h2>
+                        <p>Tworzymy boty Discord, które wspierają nasze społeczności!</p>
+                        <p>Sprawdź nasze boty, które ułatwiają zarządzanie serwerami i dodają unikalne funkcje, takie jak moderacja, powiadomienia czy gry.</p>
+                        <p>Lista botów (wkrótce):</p>
+                        <ul>
+                            <li><b>Deside</b> - Bot stworzony dla społeczności <b>FIVEM</b> z customowymi komendami oraz funkcjami.</li>
+                            <li><b>Csowicze</b> - Bot stworzony dla społeczności <b>Counter-Strike</b> z customowymi komendami oraz funkcjami.</li>
+                        </ul>
+                        <p>Dołącz do naszego Discorda, aby dowiedzieć się więcej o naszych projektach!</p>
+                        <a class="discord-link" href="https://discord.gg/FysWB8D2Cc" target="_blank">
+                            <img src="https://www.pngkey.com/png/full/20-200938_white-discord-logo-png-png-free-discord-logo.png" alt="Dołącz do Discorda">
+                        </a>
+                        <div class="gallery">
+                            <img src="https://i.imgur.com/w2JRgiP.png" alt="Przykładowy bot onclick="openModal(this.src)">
+                            <img src="https://i.imgur.com/fwNsgmo.png" alt="Przykładowy bot onclick="openModal(this.src)">
+                            <img src="https://i.imgur.com/SHZ8B11.png" alt="Przykładowy bot onclick="openModal(this.src)">
+                            <img src="https://i.imgur.com/dcUJNYu.png" alt="Przykładowy bot onclick="openModal(this.src)">
+                        </div>
+                    `;
+                    break;
+                case 'contact':
+                    contentHTML = `
+                        <h1>Kontakt</h1>
+                        <h2>CSM.PL</h2>
+                        <p>Skontaktuj się z nami, jeśli masz pytania lub chcesz dołączyć do naszej społeczności!</p>
+                        <p>
+                            📧 Email: <a href="mailto:kontakt@csm.pl">kontakt@csm.pl</a><br>
+                            🌐 Discord: <a href="https://discord.gg/FysWB8D2Cc" target="_blank">Dołącz do naszego Discorda</a><br>
+                            📱 Social Media: Śledź nas na <a href="https://x.com/CSM_PL" target="_blank">X</a>
+                        </p>
+                        <p>Chętnie odpowiemy na wszelkie pytania dotyczące naszych projektów, modeli czy botów Discord!</p>
+                    `;
+                    break;
+                default:
+                    navigateTo('home');
+                    return;
+            }
+
+            content.innerHTML = contentHTML;
+            history.pushState({ page: page }, '', `/${page === 'home' ? '' : page}`);
+            toggleMenu();
+        }
+
+        function openModal(src) {
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            modalImage.src = src;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('image-modal');
+            modal.style.display = 'none';
+        }
+
+        window.onload = function() {
+            const validPages = ['home', 'about', 'models', 'bots', 'contact'];
+            const path = window.location.pathname.slice(1) || 'home';
+            if (!validPages.includes(path)) {
+                history.pushState({ page: 'home' }, '', '/');
+                navigateTo('home');
+            } else {
+                navigateTo(path);
+            }
+        };
+
+        window.onpopstate = function(event) {
+            const path = event.state ? event.state.page : 'home';
+            navigateTo(path);
+        };
+    </script>
+</body>
+</html>
