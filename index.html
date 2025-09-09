@@ -451,19 +451,20 @@
             font-size: 1rem;
             color: #ff0000;
         }
-        .staff-box .staff-discord {
+        .staff-box .staff-discord, .staff-box .staff-steam {
             margin-top: 0.5rem;
+            display: inline-block;
         }
-        .staff-box .staff-discord a {
+        .staff-box .staff-discord a, .staff-box .staff-steam a {
             display: inline-block;
             transition: transform 0.3s ease;
         }
-        .staff-box .staff-discord img {
+        .staff-box .staff-discord img, .staff-box .staff-steam img {
             width: 24px;
             height: 24px;
             object-fit: contain;
         }
-        .staff-box .staff-discord a:hover img {
+        .staff-box .staff-discord a:hover img, .staff-box .staff-steam a:hover img {
             transform: scale(1.1);
         }
         @keyframes spin {
@@ -670,7 +671,7 @@
             .staff-box .staff-rank {
                 font-size: 0.9rem;
             }
-            .staff-box .staff-discord img {
+            .staff-box .staff-discord img, .staff-box .staff-steam img {
                 width: 20px;
                 height: 20px;
             }
@@ -841,7 +842,7 @@
             .staff-box .staff-rank {
                 font-size: 0.8rem;
             }
-            .staff-box .staff-discord img {
+            .staff-box .staff-discord img, .staff-box .staff-steam img {
                 width: 18px;
                 height: 18px;
             }
@@ -1006,7 +1007,7 @@
             .staff-box .staff-rank {
                 font-size: 0.7rem;
             }
-            .staff-box .staff-discord img {
+            .staff-box .staff-discord img, .staff-box .staff-steam img {
                 width: 16px;
                 height: 16px;
             }
@@ -1043,6 +1044,7 @@
         <div class="staff-name" id="staff-name"></div>
         <div class="staff-rank" id="staff-rank"></div>
         <div class="staff-discord" id="staff-discord"></div>
+        <div class="staff-steam" id="staff-steam"></div>
     </div>
     <div class="container content" id="home">
         <h1>Counter-Strike Models</h1>
@@ -1179,13 +1181,15 @@
                 name: 'sajdx',
                 rank: 'Właściciel',
                 image: 'https://grywamy.eu/uploads/monthly_2025_09/lloyd.thumb.webp.83ce5eaff4dddcb5d7e854cef8f2d326.webp',
-                discordId: '507618372725506069' // Przykładowe ID, sprawdź!
+                discordId: '507618372725506069',
+                steamId: 'sajdx'
             },
             {
                 name: 'Majne',
                 rank: 'Administrator',
                 image: 'https://i.pinimg.com/236x/26/7b/03/267b03ab2f483289a16356a6ffcff01b.jpg',
-                discordId: '905588893074743298' // Placeholder, podaj prawdziwe ID!
+                discordId: '905588893074743298',
+                steamId: 'HeadHunterBruh'
             },
         ];
 
@@ -1197,6 +1201,7 @@
             const staffName = document.getElementById('staff-name');
             const staffRank = document.getElementById('staff-rank');
             const staffDiscord = document.getElementById('staff-discord');
+            const staffSteam = document.getElementById('staff-steam');
 
             // Fade out
             staffBox.style.opacity = 0;
@@ -1208,6 +1213,7 @@
                 staffName.innerHTML = `<span class="red-star"></span><span>${member.name}</span>`;
                 staffRank.textContent = member.rank;
                 staffDiscord.innerHTML = `<a href="https://discord.com/users/${member.discordId}" target="_blank"><img src="https://www.pngkey.com/png/full/20-200938_white-discord-logo-png-png-free-discord-logo.png" alt="DM ${member.name}"></a>`;
+                staffSteam.innerHTML = `<a href="https://steamcommunity.com/id/${member.steamId}" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" alt="Steam ${member.name}"></a>`;
 
                 // Fade in
                 staffBox.style.opacity = 1;
