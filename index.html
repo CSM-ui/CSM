@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Counter-Strike Models</title>
+    <base href="/">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://4kwallpapers.com/images/wallpapers/counter-strike--9192.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            padding-top: 70px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 16px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+        .container {
+            max-width: 90vw;
+            width: 640px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            margin: 2rem auto;
+        }
+        #home {
+            min-height: 80vh;
+        }
+        .bot-extra-panel {
+            max-width: 90vw;
+            width: 500px;
+            padding: 2rem;
+            margin: 2rem auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .bot-extra-panel img {
+            max-width: 150px;
+            width: 45vw;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .bot-extra-panel img:hover {
+            transform: scale(1.1);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #7289da;
+        }
+        h2 {
+            font-size: 1.8rem;
+        }
+        p, ul {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .discord-link img {
+            max-width: 200px;
+            width: 40vw;
+            transition: transform 0.3s ease;
+        }
+        .discord-link img:hover {
+            transform: scale(1.1);
+        }
+        .no-js {
+            background-color: #ff4444;
+            color: #fff;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0 1.5rem;
+            font-size: 1.1rem;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            min-height: 44px;
+        }
+        .navbar a:hover {
+            background: rgba(114, 137, 218, 0.5);
+        }
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 1rem;
+            object-fit: contain;
+            vertical-align: middle;
+            border-radius: 50%; /* Dodane, aby logo było kółkiem */
+        }
+        .footer {
+            width: 100%;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 6rem 0 0.1rem;
+            font-size: 0.8rem;
+            color: #ffffff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+        .footer.visible {
+            display: flex;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-top: 0.2rem;
+            transition: color 0.2s ease;
+        }
+        .footer a:hover {
+            color: #7289da;
+        }
+        .footer-left, .footer-right, .footer-center {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .footer-right {
+            margin-left: -1000px;
+        }
+        .footer-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            align-items: center;
+        }
+        .footer-center a {
+            background: #7289da;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        .footer-center a:hover {
+            background: #5b6eae;
+        }
+        .footer-right span {
+            margin-bottom: 0.2rem;
+        }
+        .footer-left .copyright {
+            margin-bottom: 0.2rem;
+            color: #ffffff;
+        }
+        .footer-left .author {
+            color: #ffffff;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        .footer-left .sajdx-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        .footer-left .sajdx-container::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: calc(100% + 16px);
+            height: calc(100% + 16px);
+            background-image: url('https://grywamy.eu/img/wlasciciel-grupa.gif');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: 0;
+        }
+        .footer-left .star {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url('https://cdn.discordapp.com/attachments/1233058141290364938/1414920086300659823/gwaizda_1.png?ex=68c15284&is=68c00104&hm=a38c1b48ccb9f700f51d8c3f634ae82d6c9b50cdf94bcc8e68f4705ecfef85ec&');
+            background-size: cover;
+            position: relative;
+            margin-right: 0.3rem;
+            vertical-align: middle;
+            animation: spin 2s linear infinite;
+            z-index: 1;
+        }
+        .footer-left .sajdx {
+            position: relative;
+            color: transparent;
+            z-index: 1;
+            font-size: 1.4rem;
+        }
+        .footer-left .sajdx::before {
+            content: 'sajdx';
+            position: absolute;
+            top: 3px;
+            left: -13px;
+            width: 100%;
+            height: 100%;
+            color: #ff0000;
+            z-index: 2;
+            font-size: 1rem;
+        }
+        .footer-left .info-box {
+            display: none;
+            position: absolute;
+            top: -600px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #ffffff;
+            padding: 1rem;
+            border-radius: 5px;
+            width: 220px;
+            height: 600px;
+            text-align: center;
+            z-index: 10;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateX(-50%) translateY(10px);
+        }
+        .footer-left .sajdx:hover .info-box {
+            display: block;
+            opacity: 0.8;
+            transform: translateX(-50%) translateY(0);
+        }
+        .footer-left .info-box .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 0.5rem;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+        .footer-left .info-box .profile-name,
+        .footer-left .info-box .profile-role {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin: 0.3rem 0;
+        }
+        .footer-left .info-box .profile-name::before,
+        .footer-left .info-box .profile-role::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            width: calc(100% + 12px);
+            height: calc(100% + 12px);
+            background-image: url('https://grywamy.eu/img/wlasciciel-grupa.gif');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: 0;
+        }
+        .footer-left .info-box .profile-name .star {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-image: url('https://cdn.discordapp.com/attachments/1233058141290364938/1414920086300659823/gwaizda_1.png?ex=68c15284&is=68c00104&hm=a38c1b48ccb9f700f51d8c3f634ae82d6c9b50cdf94bcc8e68f4705ecfef85ec&');
+            background-size: cover;
+            margin-right: 2rem;
+            animation: spin 2s linear infinite;
+            z-index: 1;
+        }
+        .footer-left .info-box .profile-role .star {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url('https://cdn.discordapp.com/attachments/1233058141290364938/1414920086300659823/gwaizda_1.png?ex=68c15284&is=68c00104&hm=a38c1b48ccb9f700f51d8c3f634ae82d6c9b50cdf94bcc8e68f4705ecfef85ec&');
+            background-size: cover;
+            margin-right: 0.05rem;
+            animation: spin 2s linear infinite;
+            z-index: 1;
+        }
+        .footer-left .info-box .name-text {
+            position: relative;
+            color: transparent;
+            z-index: 1;
+            height: 1.4rem;
+            line-height: 1.4rem;
+            display: inline-block;
+        }
+        .footer-left .info-box .role-text {
+            position: relative;
+            color: transparent;
+            z-index: 1;
+            height: 0.7rem;
+            line-height: 0.7rem;
+            display: inline-block;
+        }
+        .footer-left .info-box .name-text::before {
+            content: 'sajdx';
+            position: absolute;
+            top: 0;
+            left: -32px;
+            width: 100%;
+            height: 100%;
+            color: #ff0000;
+            z-index: 2;
+            font-size: 1.4rem;
+        }
+        .footer-left .info-box .role-text::before {
+            content: 'Właściciel';
+            position: absolute;
+            top: 0;
+            left: -6px;
+            width: 100%;
+            height: 100%;
+            color: #ff0000;
+            z-index: 2;
+            font-size: 0.7rem;
+        }
+        .footer-left .info-box .intro-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #ffffff;
+            line-height: 1.4;
+            text-align: left;
+        }
+        .footer-left .info-box a {
+            color: #7289da;
+            text-decoration: none;
+            margin-top: 0.3rem;
+            display: inline-block;
+        }
+        .footer-left .info-box a:hover {
+            text-decoration: underline;
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .gallery img {
+            max-width: 150px;
+            width: 45vw;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            min-height: 44px;
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 2001;
+            min-height: 44px;
+            min-width: 44px;
+        }
+        @media screen and (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            #home {
+                min-height: 70vh;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            p, ul {
+                font-size: 0.9rem;
+            }
+            .container, .bot-extra-panel {
+                width: 85vw;
+                padding: 1.5rem;
+                margin: 1.5rem auto;
+            }
+            .discord-link img {
+                width: 50vw;
+                max-width: 150px;
+            }
+            .gallery img, .bot-extra-panel img {
+                width: 40vw;
+                max-width: 120px;
+            }
+            .navbar {
+                height: 50px;
+            }
+            .navbar a {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            .navbar-logo {
+                width: 40px;
+                height: 40px;
+                margin-right: 0.8rem;
+                border-radius: 50%; /* Dodane, aby logo było kółkiem */
+            }
+            .footer {
+                height: 70px;
+                font-size: 0.75rem;
+                padding: 0 5rem 0 0.05rem;
+            }
+            .footer-right {
+                margin-left: -900px;
+            }
+            .footer-center a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            .footer-left .star {
+                width: 18px;
+                height: 18px;
+            }
+            .footer-left .sajdx-container::before {
+                top: -6px;
+                left: -6px;
+                width: calc(100% + 12px);
+                height: calc(100% + 12px);
+                background-size: contain;
+            }
+            .footer-left .sajdx {
+                font-size: 1.2rem;
+            }
+            .footer-left .sajdx::before {
+                font-size: 1.2rem;
+            }
+            .footer-left .info-box {
+                width: 200px;
+                height: 240px;
+                top: -260px;
+                font-size: 0.8rem;
+            }
+            .footer-left .info-box .profile-pic {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin: 0 auto 0.5rem;
+                display: block;
+                position: relative;
+                z-index: 1;
+            }
+            .footer-left .info-box .profile-name .star {
+                width: 14px;
+                height: 14px;
+                margin-right: 0.15rem;
+            }
+            .footer-left .info-box .profile-role .star {
+                width: 14px;
+                height: 14px;
+                margin-right: 0.04rem;
+            }
+            .footer-left .info-box .profile-name::before,
+            .footer-left .info-box .profile-role::before {
+                top: -5px;
+                left: -5px;
+                width: calc(100% + 10px);
+                height: calc(100% + 10px);
+                background-size: contain;
+            }
+            .footer-left .info-box .name-text {
+                height: 1.2rem;
+                line-height: 1.2rem;
+            }
+            .footer-left .info-box .role-text {
+                height: 0.6rem;
+                line-height: 0.6rem;
+            }
+            .footer-left .info-box .name-text::before {
+                font-size: 1.2rem;
+            }
+            .footer-left .info-box .role-text::before {
+                font-size: 0.6rem;
+            }
+            .footer-left .info-box .intro-text {
+                font-size: 0.8rem;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            body {
+                padding-top: 50px;
+            }
+            #home {
+                min-height: 60vh;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            p, ul {
+                font-size: 0.85rem;
+            }
+            .container, .bot-extra-panel {
+                width: 90vw;
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+            .discord-link img {
+                width: 60vw;
+                max-width: 120px;
+            }
+            .gallery, .bot-extra-panel {
+                gap: 0.5rem;
+                flex-direction: column;
+                align-items: center;
+            }
+            .gallery img, .bot-extra-panel img {
+                width: 80vw;
+                max-width: 100px;
+            }
+            .modal-close {
+                font-size: 1.5rem;
+            }
+            .navbar {
+                height: 45px;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-left: 1rem;
+            }
+            .navbar a {
+                font-size: 0.9rem;
+                padding: 0 0.8rem;
+                white-space: nowrap;
+            }
+            .navbar-logo {
+                width: 40px;
+                height: 40px;
+                margin-right: 0.6rem;
+                border-radius: 50%; /* Dodane, aby logo było kółkiem */
+            }
+            .footer {
+                height: 60px;
+                font-size: 0.7rem;
+                padding: 0 4rem 0 0.03rem;
+            }
+            .footer-right {
+                margin-left: -800px;
+            }
+            .footer-center a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+            .footer a {
+                margin-top: 0.15rem;
+            }
+            .footer-left .star {
+                width: 16px;
+                height: 16px;
+            }
+            .footer-left .sajdx-container::before {
+                top: -4px;
+                left: -4px;
+                width: calc(100% + 8px);
+                height: calc(100% + 8px);
+                background-size: contain;
+            }
+            .footer-left .sajdx {
+                font-size: 1rem;
+            }
+            .footer-left .sajdx::before {
+                font-size: 1rem;
+            }
+            .footer-left .info-box {
+                width: 180px;
+                height: 220px;
+                top: -240px;
+                font-size: 0.75rem;
+            }
+            .footer-left .info-box .profile-pic {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                margin: 0 auto 0.5rem;
+                display: block;
+                position: relative;
+                z-index: 1;
+            }
+            .footer-left .info-box .profile-name .star {
+                width: 12px;
+                height: 12px;
+                margin-right: 0.1rem;
+            }
+            .footer-left .info-box .profile-role .star {
+                width: 12px;
+                height: 12px;
+                margin-right: 0.03rem;
+            }
+            .footer-left .info-box .profile-name::before,
+            .footer-left .info-box .profile-role::before {
+                top: -4px;
+                left: -4px;
+                width: calc(100% + 8px);
+                height: calc(100% + 8px);
+                background-size: contain;
+            }
+            .footer-left .info-box .name-text {
+                height: 1rem;
+                line-height: 1rem;
+            }
+            .footer-left .info-box .role-text {
+                height: 0.55rem;
+                line-height: 0.55rem;
+            }
+            .footer-left .info-box .name-text::before {
+                font-size: 1rem;
+            }
+            .footer-left .info-box .role-text::before {
+                font-size: 0.55rem;
+            }
+            .footer-left .info-box .intro-text {
+                font-size: 0.75rem;
+            }
+        }
+        @media screen and (max-width: 360px) {
+            body {
+                padding-top: 45px;
+            }
+            #home {
+                min-height: 50vh;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            p, ul {
+                font-size: 0.8rem;
+            }
+            .container, .bot-extra-panel {
+                width: 92vw;
+                padding: 0.8rem;
+                margin: 0.8rem auto;
+            }
+            .discord-link img {
+                width: 70vw;
+                max-width: 100px;
+            }
+            .gallery, .bot-extra-panel {
+                gap: 0.4rem;
+            }
+            .gallery img, .bot-extra-panel img {
+                width: 85vw;
+                max-width: 90px;
+            }
+            .modal-close {
+                font-size: 1.3rem;
+            }
+            .navbar {
+                height: 40px;
+            }
+            .navbar a {
+                font-size: 0.8rem;
+                padding: 0 0.6rem;
+            }
+            .navbar-logo {
+                width: 40px;
+                height: 40px;
+                margin-right: 0.5rem;
+                border-radius: 50%; /* Dodane, aby logo było kółkiem */
+            }
+            .footer {
+                height: 50px;
+                font-size: 0.65rem;
+                padding: 0 3rem 0 0.02rem;
+            }
+            .footer-right {
+                margin-left: -700px;
+            }
+            .footer-center a {
+                padding: 0.2rem 0.5rem;
+                font-size: 0.7rem;
+            }
+            .footer a {
+                margin-top: 0.1rem;
+            }
+            .footer-left .star {
+                width: 14px;
+                height: 14px;
+            }
+            .footer-left .sajdx-container::before {
+                top: -3px;
+                left: -3px;
+                width: calc(100% + 6px);
+                height: calc(100% + 6px);
+                background-size: contain;
+            }
+            .footer-left .sajdx {
+                font-size: 0.9rem;
+            }
+            .footer-left .sajdx::before {
+                font-size: 0.9rem;
+            }
+            .footer-left .info-box {
+                width: 160px;
+                height: 200px;
+                top: -220px;
+                font-size: 0.7rem;
+            }
+            .footer-left .info-box .profile-pic {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin: 0 auto 0.5rem;
+                display: block;
+                position: relative;
+                z-index: 1;
+            }
+            .footer-left .info-box .profile-name .star {
+                width: 10px;
+                height: 10px;
+                margin-right: 0.08rem;
+            }
+            .footer-left .info-box .profile-role .star {
+                width: 10px;
+                height: 10px;
+                margin-right: 0.02rem;
+            }
+            .footer-left .info-box .profile-name::before,
+            .footer-left .info-box .profile-role::before {
+                top: -3px;
+                left: -3px;
+                width: calc(100% + 6px);
+                height: calc(100% + 6px);
+                background-size: contain;
+            }
+            .footer-left .info-box .name-text {
+                height: 0.9rem;
+                line-height: 0.9rem;
+            }
+            .footer-left .info-box .role-text {
+                height: 0.5rem;
+                line-height: 0.5rem;
+            }
+            .footer-left .info-box .name-text::before {
+                font-size: 0.9rem;
+            }
+            .footer-left .info-box .role-text::before {
+                font-size: 0.5rem;
+            }
+            .footer-left .info-box .intro-text {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+    <noscript>
+        <style>
+            .no-js {
+                display: block;
+            }
+            .content {
+                display: none;
+            }
+        </style>
+    </noscript>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="no-js">
+        You need to enable JavaScript to run this app.
+    </div>
+    <nav class="navbar">
+        <img src="https://cdn.discordapp.com/attachments/1233058141290364938/1414990174902816928/logo_CSM.png?ex=68c193ca&is=68c0424a&hm=72694cebc2ca308de3e569ef272d5c6ad409a6fc4e57083efde3533ded7c9020&" alt="Logo" class="navbar-logo">
+        <a href="#home" onclick="scrollToSection('home'); return false;">Strona Główna</a>
+        <a href="#bots" onclick="scrollToSection('bots'); return false;">Boty Discord</a>
+        <a href="#models" onclick="scrollToSection('models'); return false;">Modele</a>
+        <a href="https://discord.gg/FysWB8D2Cc" target="_blank">Discord</a>
+        <a href="#about" onclick="scrollToSection('about'); return false;">O nas</a>
+        <a href="#contact" onclick="scrollToSection('contact'); return false;">Kontakt</a>
+    </nav>
+    <div class="container content" id="home">
+        <h1>Counter-Strike Models</h1>
+        <h2>CSM.PL</h2>
+        <p>Dołącz do naszej społeczności na Discordzie!</p>
+        <a class="discord-link" href="https://discord.gg/FysWB8D2Cc" target="_blank">
+            <img src="https://www.pngkey.com/png/full/20-200938_white-discord-logo-png-png-free-discord-logo.png" alt="Dołącz do Discorda">
+        </a>
+    </div>
+    <div class="container content" id="bots">
+        <h1>Boty Discord</h1>
+        <h2>CSM.PL</h2>
+        <p>Tworzymy boty Discord, które wspierają nasze społeczności!</p>
+        <p>Sprawdź nasze boty, które ułatwiają zarządzanie serwerami i dodają unikalne funkcje, takie jak moderacja, powiadomienia czy gry.</p>
+        <p>Lista botów (wkrótce):</p>
+        <ul>
+            <li><b>Deside</b> - Bot stworzony dla społeczności <b>FIVEM</b> z customowymi komendami oraz funkcjami.</li>
+            <li><b>Csowicze</b> - Bot stworzony dla społeczności <b>Counter-Strike</b> z customowymi komendami oraz funkcjami.</li>
+        </ul>
+        <p>Dołącz do naszego Discorda, aby dowiedzieć się więcej o naszych projektach!</p>
+        <a class="discord-link" href="https://discord.gg/FysWB8D2Cc" target="_blank">
+            <img src="https://www.pngkey.com/png/full/20-200938_white-discord-logo-png-png-free-discord-logo.png" alt="Dołącz do Discorda">
+        </a>
+        <div class="gallery">
+            <img src="https://i.imgur.com/w2JRgiP.png" alt="Przykładowy bot" onclick="openModal(this.src)">
+            <img src="https://i.imgur.com/fwNsgmo.png" alt="Przykładowy bot" onclick="openModal(this.src)">
+            <img src="https://i.imgur.com/SHZ8B11.png" alt="Przykładowy bot" onclick="openModal(this.src)">
+            <img src="https://i.imgur.com/dcUJNYu.png" alt="Przykładowy bot" onclick="openModal(this.src)">
+        </div>
+    </div>
+    <div class="container content" id="models">
+        <h1>Modele</h1>
+        <h2>CSM.PL</h2>
+        <p>Przeglądaj nasze modele stworzone dla Counter-Strike!</p>
+        <div class="gallery">
+            <img src="https://i.imgur.com/5raAz9o.png" alt="Model 1" onclick="openModal(this.src)">
+            <img src="https://i.imgur.com/OdakEZX.png" alt="Model 2" onclick="openModal(this.src)">
+            <img src="https://i.imgur.com/pF2qG9J.png" alt="Model 3" onclick="openModal(this.src)">
+            <img src="https://i.imgur.com/iEfijh6.png" alt="Model 4" onclick="openModal(this.src)">
+            <img src="https://i.imgur.com/B47DXJp.png" alt="Model 5" onclick="openModal(this.src)">
+            <img src="https://i.imgur.com/KZk8l89.png" alt="Model 6" onclick="openModal(this.src)">
+        </div>
+    </div>
+    <div class="container content" id="about">
+        <h1>About</h1>
+        <h2><b>CSM</b></h2>
+        <p>To mała, zgrana grupa pasjonatów, którzy łączą dwie rzeczy – miłość do Counter-Strike'a i kreatywność w świecie kodu. 🖥🎮</p>
+        <p>
+            🔹 Tworzymy własne <b>modele i modyfikacje do CS</b>, dbając o każdy detal.<br>
+            🔹 Kodujemy <b>strony internetowe</b> – od prostych projektów po bardziej rozbudowane aplikacje.<br>
+            🔹 Budujemy <b>boty na Discorda</b>, które ułatwiają życie społecznościom i dodają im charakteru.
+        </p>
+        <p>Naszym celem jest wspólna nauka, rozwój i dzielenie się pasją. Nie jesteśmy wielką organizacją – stawiamy na <b>kameralną atmosferę, współpracę i dobrą zabawę</b>. 🚀</p>
+        <p>Dołącz, jeśli chcesz razem z nami tworzyć coś od podstaw i wymieniać się doświadczeniem!</p>
+    </div>
+    <div class="container content" id="contact">
+        <h1>Kontakt</h1>
+        <h2>CSM.PL</h2>
+        <p>Skontaktuj się z nami, jeśli masz pytania lub chcesz dołączyć do naszej społeczności!</p>
+        <p>
+            📧 Email: <a href="mailto:pomoccsm@gmail.com">kontakt@csm.pl</a><br>
+            🌐 Discord: <a href="https://discord.gg/FysWB8D2Cc" target="_blank">Dołącz do naszego Discorda</a><br>
+        </p>
+        <p>Chętnie odpowiemy na wszelkie pytania dotyczące naszych projektów, modeli czy botów Discord!</p>
+    </div>
+    <footer class="footer">
+        <div class="footer-left">
+            <span class="copyright">Wszelkie prawa zastrzeżone © 2025 CSM</span>
+            <span class="author">Designer & Author: <span class="sajdx-container"><span class="star"></span><span class="sajdx">sajdx<span class="info-box">
+                <img src="https://grywamy.eu/uploads/monthly_2025_09/lloyd.thumb.webp.83ce5eaff4dddcb5d7e854cef8f2d326.webp" alt="Profile Picture" class="profile-pic">
+                <span class="profile-name"><span class="star"></span><span class="name-text">sajdx</span></span>
+                <span class="profile-role"><span class="star"></span><span class="role-text">Właściciel</span></span>
+                <a href="https://discord.com/users/sajdx" target="_blank">Discord: sajdx</a>
+                <span class="intro-text">
+                    <p>🎮 Hejka! Jestem początkującym dev’em, który wkręcił się w tworzenie stron internetowych i ogarnianie botów na Discorda.<br>
+                         Uwielbiam też dłubać przy modelach do CS 1.6, więc łączę kodowanie z gamingiem.<br><br>
+                         🤖 Boty, które robię, pomagają w moderacji, zabawie i ogólnym urozmaiceniu serwerów.<br>
+                         🕹 CS 1.6 to mój klimat – od grania po grzebanie w modelach.
+                         🚀 Cały czas uczę się nowych rzeczy, więc z każdym projektem wbijam kolejny level.
+                    </p>
+                </span>
+            </span></span></span>
+        </div>
+        <div class="footer-center">
+            <a href="https://discord.gg/UtBvcvKDSV" target="_blank">Tickety</a>
+        </div>
+        <div class="footer-right">
+            <span>Kontakt:</span>
+            <a href="mailto:pomoccsm@gmail.com">kontakt@csm.pl</a>
+            <a href="https://discord.gg/FysWB8D2Cc" target="_blank">Discord</a>
+        </div>
+    </footer>
+    <div class="modal" id="image-modal" onclick="closeModal()">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img id="modal-image" src="" alt="Pełnoekranowy model">
+    </div>
+    <script>
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+            history.pushState({ section: sectionId }, '', `#${sectionId}`);
+        }
+
+        function openModal(src) {
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            modalImage.src = src;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('image-modal');
+            modal.style.display = 'none';
+        }
+
+        function handleScroll() {
+            const footer = document.querySelector('.footer');
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const threshold = 50;
+
+            if (scrollPosition >= documentHeight - threshold) {
+                footer.classList.add('visible');
+            } else {
+                footer.classList.remove('visible');
+            }
+        }
+
+        window.onload = function() {
+            const validSections = ['home', 'about', 'models', 'bots', 'contact'];
+            const hash = window.location.hash.slice(1) || 'home';
+            if (validSections.includes(hash)) {
+                scrollToSection(hash);
+            } else {
+                scrollToSection('home');
+            }
+            window.addEventListener('scroll', handleScroll);
+            handleScroll();
+        };
+
+        window.onpopstate = function(event) {
+            const sectionId = event.state ? event.state.section : 'home';
+            scrollToSection(sectionId);
+        };
+    </script>
+</body>
+</html>
